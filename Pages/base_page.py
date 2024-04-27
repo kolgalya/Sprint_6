@@ -17,18 +17,15 @@ class BasePage:
 
     @allure.step('Клик по элементу')
     def click(self, locator):
-        WDW(self.driver, 5).until(EC.visibility_of_element_located(locator))
-        self.driver.find_element(*locator).click()
+        self.wait(locator).click()
 
     @allure.step('Ввод текста')
     def add_text(self, locator, text):
-        WDW(self.driver, 5).until(EC.visibility_of_element_located(locator))
-        self.driver.find_element(*locator).send_keys(text)
+        self.wait(locator).send_keys(text)
 
     @allure.step('Получить текст')
     def get_text(self, locator):
-        WDW(self.driver, 5).until(EC.visibility_of_element_located(locator))
-        return self.driver.find_element(*locator).text
+        return self.wait(locator).text
 
     @allure.step('Изменение универсального локатора')
     def format_locators(self, locator_1, num):
@@ -39,3 +36,8 @@ class BasePage:
     @allure.step('Получить url')
     def get_url(self):
         return self.driver.current_url
+
+    @allure.step('Переход на вкладку')
+    def switch_to_window(self, locator):
+        self.driver.switch_to.window(self.driver.window_handles[1])
+        self.wait(locator)

@@ -1,12 +1,8 @@
 import allure
 from selenium.webdriver.common.by import By
 from Pages.base_page import BasePage
-from Pages.main_page import MainPage
-
 
 class OrderPage(BasePage):
-    UP_ORDER_BUTTON = (By.XPATH, "//div[contains(@class, 'Header_Nav')]/button[contains(@class, 'Button_Button')]")  # кнопка Заказать вверху страницы
-    DOWN_ORDER_BUTTON = (By.XPATH, "//div[contains(@class, 'Home_FinishButton')]/button[contains(@class, 'Button_Button')]")  # кнопка Заказать внизу страницы
     ORDER_TITLE = (By.XPATH, "//div[contains(@class, 'Order_Header')]")  # заголовок формы бронирования
     NAME = (By.XPATH, "//input[contains(@placeholder, 'Имя')]")  # поле Имя
     LAST_NAME = (By.XPATH, "//input[contains(@placeholder, 'Фамилия')]")  # поле Фамилия
@@ -22,15 +18,10 @@ class OrderPage(BasePage):
     BUY_BUTTON = (By.XPATH, "//button[contains(@class, 'Button_Middle') and text() = 'Заказать']")  # кнопка Заказать под полями в окне бронирования
     YES_BUTTON = (By.XPATH, "//button[contains(@class, 'Button_Middle') and text() = 'Да']")  # кнопка Да в окне подтверждения заказа
     CONFIRM = (By.XPATH, "//div[contains(@class, 'Order_ModalHeader')]")  # заголовок Заказ оформлен
-    LOGO_SCOOTER = (By.XPATH, "//a[contains(@class, 'Header_LogoScooter')]") # лого Самокат
-    LOGO_YANDEX = (By.XPATH, "//a[contains(@class, 'Header_LogoYandex')]") # лого Самокат
-    NEWS = (By.XPATH, "//div[contains(@class, 'floor-title__title') and text() = 'Новости']") # заголовок раздела Новости на Дзен
 
-
-
-    @allure.step('Подтверждаем использование кук')
-    def click_cookie(self):
-        self.click(MainPage.COOKIE_BUTTON)
+    @allure.step('Получаем текст заголовка формы бронирования')
+    def order_title(self):
+        return self.get_text(self.ORDER_TITLE)
 
     @allure.step('Заполняем первую форму бронирования')
     def set_order_1(self, name, last_name, address, phone, station):
@@ -51,7 +42,11 @@ class OrderPage(BasePage):
         self.click(self.BLACK_COLOUR)
         self.click(self.BUY_BUTTON)
 
-    @allure.step('Переход на вкладку Дзен')
-    def switch_to_window(self):
-        self.driver.switch_to.window(self.driver.window_handles[1])
-        self.wait(self.NEWS)
+    @allure.step('Подтверждаем оформление заказа')
+    def yes_order(self):
+        self.click(self.YES_BUTTON)
+
+    @allure.step('Получаем текст заголовка окна "Заказ оформлен"')
+    def confirm_title(self):
+        return self.get_text(self.CONFIRM)
+
