@@ -20,9 +20,6 @@ class OrderPage(BasePage):
     YES_BUTTON = (By.XPATH, "//button[contains(@class, 'Button_Middle') and text() = 'Да']")  # кнопка Да в окне подтверждения заказа
     CONFIRM = (By.XPATH, "//div[contains(@class, 'Order_ModalHeader')]")  # заголовок Заказ оформлен
 
-    def __init__(self, driver):
-        super().__init__(driver)
-
     @allure.step('Получаем текст заголовка формы бронирования')
     def order_title(self):
         return self.get_text(self.ORDER_TITLE)
