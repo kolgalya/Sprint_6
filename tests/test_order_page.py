@@ -1,8 +1,7 @@
 import allure
 import pytest
-from selenium.webdriver.common.by import By
-from Pages.main_page import MainPage as MP
-from Pages.order_page import OrderPage as OP
+from pages.main_page import MainPage as MP
+from pages.order_page import OrderPage as OP
 from data import Urls
 
 class TestOrderPage:
@@ -19,7 +18,7 @@ class TestOrderPage:
     @pytest.mark.parametrize(
         'name, last_name, address, station, phone',
         [
-            ('Оля', 'Парамонова', 'Москва, ул. Донская, 21', 'Сокольники', '+79563285856'),
+            ('Оля', 'Парамонова', 'Москва, ул. Донская, 21', 'Черкизовская', '+79563285856'),
             ('Вася', 'Ухабин', 'Москва, ул. Мосфильмовская, 4', 'Университет', '+79259996644'),
         ])
 
@@ -32,7 +31,6 @@ class TestOrderPage:
         main_page.click_up_order_button()
         order_page = OP(driver)
         order_page.set_order_1(name, last_name, address, phone, station)
-        driver.find_element(By.XPATH, f".//div[text() = '{station}']").click()
         order_page.set_order_2()
         order_page.yes_order()
         assert 'Заказ оформлен' in order_page.confirm_title()

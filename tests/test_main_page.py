@@ -1,6 +1,6 @@
 import allure
 import pytest
-from Pages.main_page import MainPage as MP
+from pages.main_page import MainPage as MP
 from data import Urls
 
 class TestMainPage:

@@ -1,6 +1,6 @@
 import allure
 from selenium.webdriver.common.by import By
-from Pages.base_page import BasePage
+from pages.base_page import BasePage
 
 class OrderPage(BasePage):
     ORDER_TITLE = (By.XPATH, "//div[contains(@class, 'Order_Header')]")  # заголовок формы бронирования
@@ -8,6 +8,7 @@ class OrderPage(BasePage):
     LAST_NAME = (By.XPATH, "//input[contains(@placeholder, 'Фамилия')]")  # поле Фамилия
     ADDRESS = (By.XPATH, "//input[contains(@placeholder, 'Адрес')]")  # поле Адрес
     STATION = (By.XPATH, "//input[contains(@placeholder, 'Станция')]")  # поле Станция метро
+    STATION_ELEMENT = (By.XPATH, "//*[@class = 'select-search__row']") # станция метро в выпадающем списке
     TELEPHONE = (By.XPATH, "//input[contains(@placeholder, 'Телефон')]")  # поле Телефон
     NEXT = (By.XPATH, "//div[contains(@class, 'NextButton')]/button[contains(@class, 'Button_Button')]")  # кнопка Далее
     DATE = (By.XPATH, "//input[contains(@placeholder, 'Когда')]")  # поле Когда привезти самокат
@@ -18,6 +19,9 @@ class OrderPage(BasePage):
     BUY_BUTTON = (By.XPATH, "//button[contains(@class, 'Button_Middle') and text() = 'Заказать']")  # кнопка Заказать под полями в окне бронирования
     YES_BUTTON = (By.XPATH, "//button[contains(@class, 'Button_Middle') and text() = 'Да']")  # кнопка Да в окне подтверждения заказа
     CONFIRM = (By.XPATH, "//div[contains(@class, 'Order_ModalHeader')]")  # заголовок Заказ оформлен
+
+    def __init__(self, driver):
+        super().__init__(driver)
 
     @allure.step('Получаем текст заголовка формы бронирования')
     def order_title(self):
@@ -31,6 +35,7 @@ class OrderPage(BasePage):
         self.add_text(self.TELEPHONE, phone)
         self.click(self.STATION)
         self.add_text(self.STATION, station)
+        self.click(self.STATION_ELEMENT)
 
     @allure.step('Заполняем вторую форму бронирования')
     def set_order_2(self):
@@ -49,4 +54,3 @@ class OrderPage(BasePage):
     @allure.step('Получаем текст заголовка окна "Заказ оформлен"')
     def confirm_title(self):
         return self.get_text(self.CONFIRM)
-
